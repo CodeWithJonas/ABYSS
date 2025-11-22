@@ -1,0 +1,34 @@
+graph LR
+    subgraph Frontend ["FRONTEND (React Native / Expo)"]
+        direction TB
+        iOS[📱 iOS App]
+        Android[🤖 Android App]
+        Web[💻 Web App]
+        
+        iOS & Android & Web -->|1. HTTP Request (JSON)| API
+    end
+
+    subgraph Backend ["BACKEND (Python / FastAPI)"]
+        direction TB
+        API[⚙️ FastAPI Server]
+        
+        subgraph Logic ["Business Logic Layer"]
+            Auth[Validierung]
+            Calc[Berechnungen]
+            Models[Pydantic Models]
+        end
+        
+        API --> Logic
+    end
+
+    subgraph Data ["DATENBANK (Persistence)"]
+        DB[(🗄️ SQLite / PostgreSQL)]
+    end
+
+    Logic -->|2. SQL Query| DB
+    DB -->|3. Daten (Rows)| Logic
+    API -->|4. HTTP Response (JSON)| iOS & Android & Web
+
+    style Frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    style Backend fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style Data fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
